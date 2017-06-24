@@ -15,7 +15,7 @@
  */
 package com.deservel.spiderman.controller;
 
-import com.deservel.spiderman.util.IOUtil;
+import com.deservel.spiderman.common.utils.IOUtil;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,7 +23,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 /**
  * @author DeserveL
@@ -31,11 +33,11 @@ import java.io.*;
  * @since 1.0.0
  */
 @Controller
-@RequestMapping("/1")
+@RequestMapping("/downLoad")
 public class DownLoadController {
 
-    @RequestMapping("/2")
-    public ResponseEntity<byte[]> zipDownLoad() throws IOException {
+    @RequestMapping("/zipDownLoad")
+    public ResponseEntity<byte[]> zipDownLoad(String name) throws IOException {
         HttpHeaders httpHeaders = new HttpHeaders();
         String fileName = "";
         try {
@@ -45,7 +47,7 @@ public class DownLoadController {
         }
         httpHeaders.setContentDispositionFormData("attachment", fileName + ".zip");
         httpHeaders.setContentType(new MediaType("application", "octet-stream"));
-        byte[] bytes = IOUtil.readStreamBytes(new FileInputStream("D:\\testpic1\\1.zip"));
+        byte[] bytes = IOUtil.readStreamBytes(new FileInputStream("D:\\testpic1\\" + name));
         return new ResponseEntity<>(bytes, httpHeaders, HttpStatus.OK);
     }
 }

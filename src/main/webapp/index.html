@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="SpiderMan">
+    <meta name="author" content="DeserveL">
+    <title>获取网页图片</title>
+
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css"/>
+    <script type="text/javascript" src="lib/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="lib/bootstrap/js/bootstrap.min.js"></script>
+    <style>
+        .vertical-center {
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .spandown {
+            border: none;
+            height: 60px;
+        }
+    </style>
+</head>
+<body>
+<div class="container vertical-center">
+    <div class="row center-block glyphicon-align-center">
+        <div class="input-group col-md-8 col-md-offset-2">
+            <input type="text" class="form-control" placeholder="请输入网址" id="input_url"/>
+            <span class="input-group-addon btn btn-primary" onclick="show()">获取图片</span>
+        </div>
+    </div>
+
+    <div class="row" style="padding: 10px;" id="down-div">
+        <div class="input-group col-md-8 col-md-offset-2">
+            <a href="http://localhost:8080/1/2.do"><span class="input-group-addon btn btn-primary spandown">图片已经爬取完成，请点击下载</span></a>
+        </div>
+    </div>
+</div>
+
+<script type="application/javascript">
+    //页面初期化加载时候
+    $(function () {
+        $('#down-div').hide();
+    });
+
+    function show() {
+        var url = $("#input_url").val();
+
+        //验证url网址
+        if(!checkUrl(url)) {
+            return false;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/spider/getPic.do",
+            data: {url: url},
+            dataType: "json",
+            success: function (data) {
+                $('#down-div').show();
+            }
+        });
+    }
+
+
+    function checkUrl(url) {
+        //判断URL地址的正则表达式为:http(s)?://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?
+        //下面的代码中应用了转义字符"\"输出一个字符"/"
+        var Expression = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
+        var objExp = new RegExp(Expression);
+        if (objExp.test(url) != true) {
+            alert("网址格式不正确！请重新输入");
+            return false;
+        } else {
+            alert("网址正确！");
+            return true;
+        }
+    }
+</script>
+</body>
+</html>
