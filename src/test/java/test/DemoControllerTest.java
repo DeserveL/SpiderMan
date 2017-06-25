@@ -45,7 +45,7 @@ public class DemoControllerTest extends AbstractSpringContextTest {
 
     @Test
     public void getName() throws Exception {
-        ResultActions perform = this.mockMvc.perform(MockMvcRequestBuilders.post("/demo/getName").accept((MediaType.APPLICATION_JSON)).param("name", "李响"));
+        ResultActions perform = this.mockMvc.perform(MockMvcRequestBuilders.post("/demo/getName").accept((MediaType.APPLICATION_JSON)).param("name", "李响").param("age", "18"));
         MvcResult mvcResult = perform.andReturn();
         String contentAsString = mvcResult.getResponse().getContentAsString();
         System.out.println("=====客户端获得反馈数据:" + contentAsString);

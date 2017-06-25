@@ -13,31 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.deservel.spiderman.controller;
+package com.deservel.spiderman.common.web;
 
-import com.deservel.spiderman.common.web.Response;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
+import java.util.Properties;
 
 /**
+ * 自定义spring的PropertyPlaceholderConfigurer,支持持有properties.
+ *
  * @author DeserveL
- * @date 2017/5/31 15:29
+ * @date 2017/6/25 0025 下午 17:05
  * @since 1.0.0
  */
-@Controller
-@RequestMapping("/demo")
-public class DemoController {
+public class HeldPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigurer {
 
-    @ResponseBody
-    @RequestMapping("/getName")
-    public Response getName(String name, Integer age) {
-        Map<String, Object> rs = new HashMap<>();
-        rs.put("name", name);
-        rs.put("age", age);
-        return new Response().success(rs);
+    @Override
+    protected Properties mergeProperties() throws IOException {
+        Properties properties = super.mergeProperties();
+        ConfigurerPropertiesHolder.setProperties(properties);
+        return properties;
     }
 }

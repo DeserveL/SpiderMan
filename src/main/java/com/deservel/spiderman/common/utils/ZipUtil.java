@@ -211,6 +211,6 @@ public class ZipUtil {
 
     public static void main(String[] args) {
         System.out.println(getFiles("D:\\testpic"));
-        zip("D:\\testpic","D:\\testpic1\\1.zip");
+        zip("D:\\testpic\\pic","D:\\testpic\\zip\\123.zip");
     }
 }

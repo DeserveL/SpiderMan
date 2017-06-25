@@ -16,6 +16,9 @@
 package com.deservel.spiderman.common.web;
 
 /**
+ * 统一响应结构
+ * 其中包含两部分：元数据 与 返回值，其中，元数据表示操作是否成功与返回值消息等，返回值对应服务端方法所返回的数据
+ *
  * @author DeserveL
  * @date 2017/6/24 0024 下午 18:06
  * @since 1.0.0

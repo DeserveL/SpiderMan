@@ -13,31 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.deservel.spiderman.controller;
+package test;
 
-import com.deservel.spiderman.common.web.Response;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.deservel.spiderman.common.web.ConfigurerPropertiesHolder;
+import org.junit.Test;
 
 /**
  * @author DeserveL
- * @date 2017/5/31 15:29
+ * @date 2017/6/25 0025 下午 17:17
  * @since 1.0.0
  */
-@Controller
-@RequestMapping("/demo")
-public class DemoController {
-
-    @ResponseBody
-    @RequestMapping("/getName")
-    public Response getName(String name, Integer age) {
-        Map<String, Object> rs = new HashMap<>();
-        rs.put("name", name);
-        rs.put("age", age);
-        return new Response().success(rs);
+public class ConfigurerPropertiesHolderTest extends AbstractSpringContextTest{
+    @Test
+    public void getProperties(){
+        System.out.println(ConfigurerPropertiesHolder.getProperty("zip.filePath"));
+        System.out.println(ConfigurerPropertiesHolder.getProperty("log4j.appender.console"));
     }
 }

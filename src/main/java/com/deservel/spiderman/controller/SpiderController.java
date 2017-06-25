@@ -15,14 +15,12 @@
  */
 package com.deservel.spiderman.controller;
 
+import com.deservel.spiderman.common.web.Response;
 import com.deservel.spiderman.service.SpiderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author DeserveL
@@ -38,10 +36,7 @@ public class SpiderController {
 
     @RequestMapping("/getPic")
     @ResponseBody
-    public Map<String, Object> getPic(String url) {
-        Map<String, Object> rs = new HashMap<>();
-        rs.put("flag", true);
-        rs.put("age", spiderService.getPic(url));
-        return rs;
+    public Response getPic(String url) {
+        return new Response().success(spiderService.getPic(url));
     }
 }

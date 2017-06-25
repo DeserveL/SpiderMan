@@ -16,5 +16,14 @@
     <context:annotation-config/>
     <context:component-scan base-package="com.* "/>
 
+    <!--加载配置文件-->
+    <bean class="com.deservel.spiderman.common.web.HeldPropertyPlaceholderConfigurer">
+        <property name="ignoreResourceNotFound" value="true"/>
+        <property name="locations">
+            <list>
+                <value>classpath:filePath.properties</value>
+            </list>
+        </property>
+    </bean>
 </beans>
 
