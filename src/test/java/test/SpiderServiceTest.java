@@ -15,18 +15,22 @@
  */
 package test;
 
-import com.deservel.spiderman.common.web.ConfigurerPropertiesHolder;
+import com.deservel.spiderman.service.SpiderService;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author DeserveL
- * @date 2017/6/25 0025 下午 17:17
+ * @date 2017/6/25 0025 下午 18:58
  * @since 1.0.0
  */
-public class ConfigurerPropertiesHolderTest extends AbstractSpringContextTest{
+public class SpiderServiceTest extends AbstractSpringContextTest{
+
+    @Autowired
+    SpiderService spiderService;
+
     @Test
-    public void getProperties(){
-        System.out.println(ConfigurerPropertiesHolder.getProperty("pic.filePath"));
-        System.out.println(ConfigurerPropertiesHolder.getProperty("log4j.appender.console"));
+    public void getPic(){
+        System.out.println(spiderService.getPic("123"));
     }
 }

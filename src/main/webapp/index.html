@@ -31,13 +31,13 @@
     <div class="row center-block glyphicon-align-center">
         <div class="input-group col-md-8 col-md-offset-2">
             <input type="text" class="form-control" placeholder="请输入网址" id="input_url"/>
-            <span class="input-group-addon btn btn-primary" onclick="show()">获取图片</span>
+            <span class="input-group-addon btn btn-primary" onclick="getPic()">获取图片</span>
         </div>
     </div>
 
     <div class="row" style="padding: 10px;" id="down-div">
         <div class="input-group col-md-8 col-md-offset-2">
-            <a href="http://localhost:8080/1/2.do"><span class="input-group-addon btn btn-primary spandown">图片已经爬取完成，请点击下载</span></a>
+            <a id="down_a"><span class="input-group-addon btn btn-primary spandown">图片已经爬取完成，请点击下载</span></a>
         </div>
     </div>
 </div>
@@ -48,11 +48,11 @@
         $('#down-div').hide();
     });
 
-    function show() {
+    function getPic() {
         var url = $("#input_url").val();
 
         //验证url网址
-        if(!checkUrl(url)) {
+        if (!checkUrl(url)) {
             return false;
         }
 
@@ -62,12 +62,23 @@
             data: {url: url},
             dataType: "json",
             success: function (data) {
-                $('#down-div').show();
+                if (data.meta.success) {
+                    var downHref = "http://localhost:8080/downLoad/zipDownLoad.do?name=" + data.data;
+                    $("#down_a").attr("href", downHref);
+                    $('#down-div').show();
+                } else {
+                    alert("爬取图片失败:"+data.meta.message);
+                }
             }
         });
     }
 
-
+    /**
+     * 检测网址是否正确
+     *
+     * @param url
+     * @returns {boolean}
+     */
     function checkUrl(url) {
         //判断URL地址的正则表达式为:http(s)?://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?
         //下面的代码中应用了转义字符"\"输出一个字符"/"
@@ -77,7 +88,6 @@
             alert("网址格式不正确！请重新输入");
             return false;
         } else {
-            alert("网址正确！");
             return true;
         }
     }

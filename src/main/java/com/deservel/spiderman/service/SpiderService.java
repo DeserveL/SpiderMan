@@ -15,7 +15,12 @@
  */
 package com.deservel.spiderman.service;
 
+import com.deservel.spiderman.common.web.ConfigurerPropertiesHolder;
 import org.springframework.stereotype.Service;
+
+import java.io.File;
+import java.util.Calendar;
+import java.util.UUID;
 
 /**
  * @author DeserveL
@@ -25,8 +30,31 @@ import org.springframework.stereotype.Service;
 @Service
 public class SpiderService {
 
-    public String getPic(String url){
-        String zipName = "1.zip";
+    public String getPic(String url) {
+        //生成图片保存路径(主目录/年/月/唯一标识)
+        StringBuffer path = new StringBuffer(ConfigurerPropertiesHolder.getProperty("pic.filePath"));
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        path.append(calendar.get(Calendar.YEAR) + "/");
+        int month = calendar.get(Calendar.MONTH);
+        path.append(calendar.get(Calendar.MONTH) + "/");
+        String uuid = UUID.randomUUID().toString();
+        path.append(UUID.randomUUID().toString() + "/");
+        //图片保存路径(主目录/年/月/唯一标识/pic/)
+        String picPath = path.toString() + "pic/";
+        File file = new File(picPath);
+        System.out.println(file.mkdirs());
+        //压缩图片名(年_月_唯一标识_allPic.zip)
+        String zipName = year + "_" + month + "_" + uuid + "_allPic.zip";
+        System.out.println(zipName);
+        //图片保存路径(主目录/年/月/唯一标识/allPic.zip)
+        String zipPathAndName = path.toString() + zipName;
+        System.out.println(zipPathAndName);
+        //String zipName = "allPic.zip";
         return zipName;
+    }
+
+    public static void main(String[] args) {
+        new SpiderService().getPic("123");
     }
 }

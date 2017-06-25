@@ -39,15 +39,15 @@ public class DownLoadController {
     @RequestMapping("/zipDownLoad")
     public ResponseEntity<byte[]> zipDownLoad(String name) throws IOException {
         HttpHeaders httpHeaders = new HttpHeaders();
-        String fileName = "";
+        String fileName = name;
         try {
             fileName = new String((fileName).getBytes("gbk"), "iso-8859-1"); //设置中文格式
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        httpHeaders.setContentDispositionFormData("attachment", fileName + ".zip");
+        httpHeaders.setContentDispositionFormData("attachment", fileName);
         httpHeaders.setContentType(new MediaType("application", "octet-stream"));
-        byte[] bytes = IOUtil.readStreamBytes(new FileInputStream("D:\\testpic1\\" + name));
+        byte[] bytes = IOUtil.readStreamBytes(new FileInputStream("D:\\testpic\\zip\\" + name));
         return new ResponseEntity<>(bytes, httpHeaders, HttpStatus.OK);
     }
 }
