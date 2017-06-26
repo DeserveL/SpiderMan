@@ -87,9 +87,9 @@ public class ConfigurerPropertiesHolder {
      * @return 如果有值则返回对应的值, 否则返回null
      */
     public static String getPropertyWithFormat(String name, Object... args) {
-        if (ConfigurerPropertiesHolder.properties == null) {
+        if (getProperty(name) == null) {
             return null;
         }
-        return MessageFormat.format(properties.getProperty(name), args);
+        return MessageFormat.format(getProperty(name), args);
     }
 }

@@ -13,24 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package test;
-
-import com.deservel.spiderman.service.SpiderService;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+package com.deservel.spiderman;
 
 /**
  * @author DeserveL
- * @date 2017/6/25 0025 下午 18:58
+ * @date 2017/5/31 16:56
  * @since 1.0.0
  */
-public class SpiderServiceTest extends AbstractSpringContextTest{
+public class DemoServiceTest extends AbstractSpringContextTest {
 
-    @Autowired
-    SpiderService spiderService;
-
-    @Test
-    public void getPic(){
-        System.out.println(spiderService.getPic("123"));
-    }
 }

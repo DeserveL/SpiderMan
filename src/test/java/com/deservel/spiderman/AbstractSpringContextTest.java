@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package test;
+package com.deservel.spiderman;
 
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
