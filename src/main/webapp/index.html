@@ -119,6 +119,7 @@
 
 <script type="application/javascript">
     var contextPath = "http://localhost:8080";
+    //var contextPath = "http://www.deservel.win";
     //页面初期化加载时候
     $(function () {
         $('#down-div').hide();
@@ -132,7 +133,9 @@
         if (!checkUrl(url)) {
             return false;
         }
+        //遮盖层
         showMask();
+        $('#down-div').hide();
         $.ajax({
             type: "POST",
             url: contextPath + "/spider/getPic.do",
