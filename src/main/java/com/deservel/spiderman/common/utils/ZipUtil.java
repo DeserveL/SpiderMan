@@ -77,7 +77,8 @@ public class ZipUtil {
      * @return
      */
     public static String getFilePathName(String dir, String path) {
-        String p = path.replace(dir + File.separator, "");
+        //String p = path.replace(dir + File.separator, "");
+        String p = path.replace(dir, "");
         p = p.replace("\\", "/");
         return p;
     }
@@ -211,6 +212,6 @@ public class ZipUtil {
 
     public static void main(String[] args) {
         System.out.println(getFiles("D:\\testpic"));
-        zip("D:\\testpic\\pic","D:\\testpic\\zip\\123.zip");
+        zip("D:\\testpic\\pic\\", "D:\\testpic\\zip\\123.zip");
     }
 }

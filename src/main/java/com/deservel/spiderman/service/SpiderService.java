@@ -16,11 +16,13 @@
 package com.deservel.spiderman.service;
 
 import com.deservel.spiderman.common.advice.BusinessException;
+import com.deservel.spiderman.common.utils.SpiderUtil;
 import com.deservel.spiderman.common.utils.ZipUtil;
 import com.deservel.spiderman.common.web.ConfigurerPropertiesHolder;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.UUID;
 
@@ -32,8 +34,12 @@ import java.util.UUID;
 @Service
 public class SpiderService {
 
+    /**
+     *
+     * @param url
+     * @return
+     */
     public String getPic(String url) {
-
         Calendar calendar = Calendar.getInstance();
         String year = String.valueOf(calendar.get(Calendar.YEAR));
         String month = String.valueOf(calendar.get(Calendar.MONTH));
@@ -50,7 +56,17 @@ public class SpiderService {
         //创建图片保存路径
         File file = new File(picPath);
         if (file.mkdirs()) {
-            //TODO pull
+            try {
+                new File(picPath, "此处应该是一个广告的，可惜还没找到赞助，抓取还在优化。。。").createNewFile();
+            } catch (IOException e) {
+
+            }
+            //抓取图片
+            try {
+                SpiderUtil.spiderImg(url, picPath);
+            } catch (IOException e) {
+                throw new BusinessException("目标网站解析失败。");
+            }
             //文件压缩
             ZipUtil.zip(picPath, zipPathAndName);
             return ConfigurerPropertiesHolder.getPropertyWithFormat("pic.zip.mark", year, month, uuid);

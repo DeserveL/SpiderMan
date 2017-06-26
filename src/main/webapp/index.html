@@ -24,9 +24,35 @@
             border: none;
             height: 60px;
         }
+
+        /*页脚*/
+        .footer {
+            border-top: 1px solid #e5e5e5;
+            color: #777;
+            padding: 19px 0;
+            background-color: #f5f5f5;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 200px;
+        }
+
+        /*遮罩层用*/
+        .mask {
+            position: absolute;
+            top: 0px;
+            filter: alpha(opacity=60);
+            background-color: #777;
+            z-index: 1002;
+            left: 0px;
+            opacity: 0.5;
+            -moz-opacity: 0.5;
+        }
     </style>
 </head>
 <body>
+<nav class="navbar navbar-default navbar-fixed">
+</nav>
 <div class="container vertical-center">
     <div class="row center-block glyphicon-align-center">
         <div class="input-group col-md-8 col-md-offset-2">
@@ -41,11 +67,62 @@
         </div>
     </div>
 </div>
+<div class="footer">
+    <div class="container">
+        <div class="row footer-top">
+            <div class="col-sm-6 col-lg-6">
+                <h4></h4>
+                <p>稀奇古怪，乱七八糟。</p>
+            </div>
+            <div class="col-sm-6  col-lg-5 col-lg-offset-1">
+                <div class="row about">
+                    <div class="col-xs-3">
+                        <h4>源码</h4>
+                        <ul class="list-unstyled">
+                            <li>
+                                <a target="_blank" href="https://github.com/DeserveL/SpiderMan">github</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-3">
+                        <h4>关于</h4>
+                        <ul class="list-unstyled">
+                            <li>
+                                <a target="_blank" href="">关于我们</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-3">
+                        <h4>联系方式</h4>
+                        <ul class="list-unstyled">
+                            <li>
+                                <a target="_blank" title="-the_start-" href="http://weibo.com/714395012">新浪微博</a>
+                            </li>
+                            <li>
+                                <a target="_blank" href="714395012@qq.com">电子邮件</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row footer-bottom">
+            <ul class="list-inline text-center">
+                <li>Copyright &copy; 2017 DeserveL Software. All Rights Reserved.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--遮罩层-->
+<div id="mask" class="mask">后台正在运行 请稍候..</div>
 
 <script type="application/javascript">
+    var contextPath = "http://localhost:8080";
     //页面初期化加载时候
     $(function () {
         $('#down-div').hide();
+        hideMask();
     });
 
     function getPic() {
@@ -55,19 +132,20 @@
         if (!checkUrl(url)) {
             return false;
         }
-
+        showMask();
         $.ajax({
             type: "POST",
-            url: "http://localhost:8080/spider/getPic.do",
+            url: contextPath + "/spider/getPic.do",
             data: {url: url},
             dataType: "json",
             success: function (data) {
                 if (data.meta.success) {
-                    var downHref = "http://localhost:8080/downLoad/zipDownLoad.do?mark=" + data.data;
+                    hideMask();
+                    var downHref = contextPath + "/downLoad/zipDownLoad.do?mark=" + data.data;
                     $("#down_a").attr("href", downHref);
                     $('#down-div').show();
                 } else {
-                    alert("爬取图片失败:"+data.meta.message);
+                    alert("爬取图片失败:" + data.meta.message);
                 }
             }
         });
@@ -82,7 +160,8 @@
     function checkUrl(url) {
         //判断URL地址的正则表达式为:http(s)?://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?
         //下面的代码中应用了转义字符"\"输出一个字符"/"
-        var Expression = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
+        //var Expression = /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/;
+        var Expression = /((http|ftp|https):\/\/)(([a-zA-Z0-9\._-]+\.[a-zA-Z]{2,6})|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,4})*(\/[a-zA-Z0-9\&%_\.\/-~-]*)?/;
         var objExp = new RegExp(Expression);
         if (objExp.test(url) != true) {
             alert("网址格式不正确！请重新输入");
@@ -90,6 +169,17 @@
         } else {
             return true;
         }
+    }
+
+    //开启遮罩层
+    function showMask() {
+        $("#mask").css("height", $(document).height());
+        $("#mask").css("width", $(document).width());
+        $("#mask").show();
+    }
+    //隐藏遮罩层
+    function hideMask() {
+        $("#mask").hide();
     }
 </script>
 </body>

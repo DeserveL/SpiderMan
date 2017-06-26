@@ -31,6 +31,6 @@ public class SpiderServiceTest extends AbstractSpringContextTest{
 
     @Test
     public void getPic(){
-        System.out.println(spiderService.getPic("123"));
+        System.out.println(spiderService.getPic("https://tieba.baidu.com/p/5156377903"));
     }
 }
