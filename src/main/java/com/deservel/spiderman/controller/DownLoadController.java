@@ -15,7 +15,9 @@
  */
 package com.deservel.spiderman.controller;
 
+import com.deservel.spiderman.common.advice.BusinessException;
 import com.deservel.spiderman.common.utils.IOUtil;
+import com.deservel.spiderman.common.web.ConfigurerPropertiesHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 /**
  * @author DeserveL
@@ -37,17 +38,20 @@ import java.io.UnsupportedEncodingException;
 public class DownLoadController {
 
     @RequestMapping("/zipDownLoad")
-    public ResponseEntity<byte[]> zipDownLoad(String name) throws IOException {
+    public ResponseEntity<byte[]> zipDownLoad(String mark) throws IOException {
         HttpHeaders httpHeaders = new HttpHeaders();
-        String fileName = name;
-        try {
-            fileName = new String((fileName).getBytes("gbk"), "iso-8859-1"); //设置中文格式
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        String[] paths = mark.split("_");
+        if(paths.length < 3){
+            throw new BusinessException("参数错误");
         }
+        String fileName = ConfigurerPropertiesHolder.getProperty("pic.zip.Name"); //zip文件名
+        String path = ConfigurerPropertiesHolder.getProperty("pic.filePath") + paths[0] + "/" + paths[1] + "/" + paths[2] + "/" + fileName; //zip文件加路径
+        //返回消息设置
+        fileName = new String((fileName).getBytes("gbk"), "iso-8859-1"); //设置中文格式
         httpHeaders.setContentDispositionFormData("attachment", fileName);
         httpHeaders.setContentType(new MediaType("application", "octet-stream"));
-        byte[] bytes = IOUtil.readStreamBytes(new FileInputStream("D:\\testpic\\zip\\" + name));
+        //读取Zip文件
+        byte[] bytes = IOUtil.readStreamBytes(new FileInputStream(path));
         return new ResponseEntity<>(bytes, httpHeaders, HttpStatus.OK);
     }
 }

@@ -63,7 +63,7 @@
             dataType: "json",
             success: function (data) {
                 if (data.meta.success) {
-                    var downHref = "http://localhost:8080/downLoad/zipDownLoad.do?name=" + data.data;
+                    var downHref = "http://localhost:8080/downLoad/zipDownLoad.do?mark=" + data.data;
                     $("#down_a").attr("href", downHref);
                     $('#down-div').show();
                 } else {

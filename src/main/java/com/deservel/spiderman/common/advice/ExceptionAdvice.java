@@ -134,6 +134,19 @@ public class ExceptionAdvice {
     }
 
     /**
+     * 200 - 自定义的业务类异常
+     *
+     * @param e
+     * @return
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(BusinessException.class)
+    public Response handleBusinessException(BusinessException e) {
+        logger.error("自定义抛出的异常", e);
+        return new Response().failure(e.getMessage());
+    }
+
+    /**
      * 500 - Internal Server Error
      *
      * @param e
@@ -143,7 +156,6 @@ public class ExceptionAdvice {
     @ExceptionHandler(Exception.class)
     public Response handleException(Exception e) {
         logger.error("通用异常", e);
-        return new Response().failure("exception");
+        return new Response().failure("系统发生错误，请联系管理员");
     }
-
 }

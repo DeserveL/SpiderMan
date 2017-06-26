@@ -13,21 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package test;
-
-import com.deservel.spiderman.common.web.ConfigurerPropertiesHolder;
-import org.junit.Test;
+package com.deservel.spiderman.common.advice;
 
 /**
+ * 业务类异常
+ *
  * @author DeserveL
- * @date 2017/6/25 0025 下午 17:17
+ * @date 2017/6/26 11:41
  * @since 1.0.0
  */
-public class ConfigurerPropertiesHolderTest extends AbstractSpringContextTest{
-    @Test
-    public void getProperties(){
-        System.out.println(ConfigurerPropertiesHolder.getProperty("pic.filePath"));
-        System.out.println(ConfigurerPropertiesHolder.getProperty("log4j.appender.console"));
-        System.out.println(ConfigurerPropertiesHolder.getPropertyWithFormat("pic","a","b","e"));
+public class BusinessException extends RuntimeException{
+
+    public BusinessException(String message) {
+        super(message);
     }
 }

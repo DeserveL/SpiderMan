@@ -15,6 +15,7 @@
  */
 package com.deservel.spiderman.common.web;
 
+import java.text.MessageFormat;
 import java.util.Enumeration;
 import java.util.Properties;
 
@@ -67,7 +68,7 @@ public class ConfigurerPropertiesHolder {
     }
 
     /**
-     * 根据name查询属性值
+     * 根据name查询属性值，自定义默认返回值
      *
      * @param name         属性名称
      * @param defaultValue 默认值
@@ -76,5 +77,19 @@ public class ConfigurerPropertiesHolder {
     public static String getProperty(String name, String defaultValue) {
         String value = getProperty(name);
         return (value == null) ? defaultValue : value;
+    }
+
+    /**
+     * 根据name查询属性值,并替换其中的占位符
+     *
+     * @param name 属性名称
+     * @param args object(s) to format
+     * @return 如果有值则返回对应的值, 否则返回null
+     */
+    public static String getPropertyWithFormat(String name, Object... args) {
+        if (ConfigurerPropertiesHolder.properties == null) {
+            return null;
+        }
+        return MessageFormat.format(properties.getProperty(name), args);
     }
 }
